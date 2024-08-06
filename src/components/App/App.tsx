@@ -9,20 +9,23 @@ import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import Loader from "../Loader/Loader";
 import ImageModal from "../ImageModal/ImageModal";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { ImageDataType, PhotoResponse } from "../../types/Images.types";
 
-const App = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+const App: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
-  const [images, setImages] = useState([]);
-  const [isLoad, setIsLoad] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [error, setError] = useState(false);
+  const [images, setImages] = useState<ImageDataType[]>([]);
+  const [isLoad, setIsLoad] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<ImageDataType | null>(
+    null
+  );
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchImages = async (): Promise<void> => {
       if (!searchQuery) return;
       try {
         setIsLoad(true);
@@ -38,7 +41,7 @@ const App = () => {
         } else {
           setError(false);
         }
-      } catch (error) {
+      } catch (error: unknown) {
         setError(true);
       } finally {
         setIsLoad(false);
@@ -47,24 +50,26 @@ const App = () => {
     fetchImages();
   }, [searchQuery, page]);
 
-  const handleSubmit = (query) => {
+  const handleSubmit = (query: string) => {
     setSearchQuery(query);
     setPage(1);
     setImages([]);
   };
 
-  const onLoadMore = () => {
+  const onLoadMore = (): void => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const handleOpenModal = (image) => {
+  const handleOpenModal = (image: ImageDataType): void => {
     setSelectedImage(image);
     setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (): void => {
     setIsModalOpen(false);
     setSelectedImage(null);
+    document.body.style.overflow = "auto";
   };
 
   return (

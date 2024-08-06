@@ -1,6 +1,6 @@
 import css from "./ErrorMessage.module.css";
 
-const ErrorMessage = () => {
+const ErrorMessage: React.FC = () => {
   return (
     <div className={css.container}>
       <p className={css.title}>Sorry, no images were found for your query</p>

@@ -3,9 +3,15 @@ import css from "./ImageGallery.module.css";
 
 import { ImageList } from "@mui/material";
 import ImageCard from "../ImageCard/ImageCard";
+import { ImageDataType } from "../../types/Images.types";
 
-const ImageGallery = ({ images, onModalOpen }) => {
-  const lastImageRef = useRef(null);
+type Props = {
+  images: ImageDataType[];
+  onModalOpen: (image: ImageDataType) => void;
+};
+
+const ImageGallery: React.FC<Props> = ({ images, onModalOpen }) => {
+  const lastImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (lastImageRef.current) {
@@ -22,7 +28,7 @@ const ImageGallery = ({ images, onModalOpen }) => {
   }, [images]);
 
   return (
-    <ImageList variant="quilted" cols={3} gap={8} className={css.container}>
+    <ImageList variant="masonry" cols={3} gap={8} className={css.container}>
       {images.map((image, index) => (
         <ImageCard
           key={image.id}

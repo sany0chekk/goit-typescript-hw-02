@@ -2,8 +2,19 @@ import Modal from "react-modal";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import css from "./ImageModal.module.css";
+import { ImageDataType } from "../../types/Images.types";
 
-const ImageModal = ({ image, isOpen, onRequestClose }) => {
+Modal.setAppElement("#root");
+
+type Props = {
+  image: ImageDataType | null;
+  isOpen: boolean;
+  onRequestClose: () => void;
+};
+
+const ImageModal: React.FC<Props> = ({ image, isOpen, onRequestClose }) => {
+  if (!isOpen || !image) return null;
+
   return (
     <Modal
       isOpen={isOpen}
@@ -36,13 +47,13 @@ const ImageModal = ({ image, isOpen, onRequestClose }) => {
                 )}
                 {image.user.instagram_username && (
                   <p className={css.userSocial}>
-                    <InstagramIcon fontSize="16px" />
+                    <InstagramIcon fontSize="small" />
                     {image.user.instagram_username}
                   </p>
                 )}
                 {image.user.twitter_username && (
                   <p className={css.userSocial}>
-                    <XIcon fontSize="16px" />
+                    <XIcon fontSize="small" />
                     {image.user.twitter_username}
                   </p>
                 )}
